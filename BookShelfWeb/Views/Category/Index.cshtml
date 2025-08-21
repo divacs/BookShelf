@@ -1,56 +1,54 @@
-﻿@model List<Category>
+﻿@using BookShelf.Models.Models
+@model List<Category>
 
-<div class="container">
-    <div class="row pt-4">
-        <!-- Leva strana -->
-        <div class="col-6">
-            <h2 class="text-primary">
-                Category List
-            </h2>
-        </div>
-
-        <!-- Desna strana -->
-        <div class="col-6 text-end">
-            <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Create New Category
-            </a>
-        </div>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary mb-0">Category List</h2>
+        <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create New Category
+        </a>
     </div>
 
-    <table class="table table-bordered table-striped mt-4">
-        <thead>
-            <tr>
-                <th>Category Name</th>
-                <th>Display Order</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var obj in Model.OrderBy(u => u.DisplayOrder))
-            {
-                <tr>
-                    <td>@obj.Name</td>
-                    <td>@obj.DisplayOrder</td>
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </a>
-                            <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2">
-                                <i class="bi bi-trash-fill"></i> Delete
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Display Order</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model.OrderBy(u => u.DisplayOrder))
+                    {
+                        <tr>
+                            <td>@obj.Name</td>
+                            <td>@obj.DisplayOrder</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </a>
+                                    <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash-fill"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-<!-- Custom CSS za svetlije granice -->
 <style>
-    .table-bordered th,
-    .table-bordered td {
-        border: 1px solid #ccc !important; /* srednje siva */
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa; /* svetlija pozadina na hover */
+    }
+
+    .btn-group .btn {
+        min-width: 80px;
     }
 </style>

@@ -1,40 +1,33 @@
-﻿@model Category
+﻿@using BookShelf.Models.Models
+@model Category
 
-<div class="card mt-4 shadow-sm">
-    <div class="card-body">
+<div class="card shadow-lg rounded-3 mt-5 mx-auto" style="max-width: 500px;">
+    <div class="card-header py-3 bg-success text-white">
+        <h2 class="text-white mb-0">Edit Category</h2>
+    </div>
+    <div class="card-body p-4">
         <form method="post">
-            <h2 class="text-primary mb-3">Edit Category</h2>
             <hr />
-            @*<div asp-validation-summary="ModelOnly"></div>*@
+
             <!-- Category Name -->
             <div class="mb-3">
-                <label asp-for="Name" class="form-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <label asp-for="Name" class="form-label text-dark">Name</label>
+                <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter category name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <!-- Display Order -->
             <div class="mb-3">
-                <label asp-for="DisplayOrder" class="form-label"></label>
-                <input asp-for="DisplayOrder" class="form-control" />
+                <label asp-for="DisplayOrder" class="form-label text-dark">Display Order</label>
+                <input asp-for="DisplayOrder" class="form-control form-control-lg" placeholder="Enter display order" />
                 <span asp-validation-for="DisplayOrder" class="text-danger"></span>
             </div>
 
             <!-- Dugmad -->
-            <div class="row mt-3">
-                <div class="col-6 col-md-3 mb-2">
-                    <button type="submit" class="btn btn-primary form-control">Update</button>
-                </div>
-                <div class="col-6 col-md-3 mb-2">
-                    <a asp-controller="Category" asp-action="Index" class="btn btn-secondary form-control">Back to list</a>
-                </div>
+            <div class="d-flex justify-content-start mt-4">
+                <button type="submit" class="btn btn-primary me-2">Update</button>
+                <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary">Back to list</a>
             </div>
         </form>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

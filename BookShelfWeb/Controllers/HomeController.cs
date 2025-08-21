@@ -1,5 +1,6 @@
 using System.Diagnostics;
-using BookShelfWeb.Models;
+using BookShelf.Models.Models;
+using BookShelf.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShelfWeb.Controllers

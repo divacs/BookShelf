@@ -1,5 +1,6 @@
-﻿using BookShelfWeb.Data;
-using BookShelfWeb.Models;
+﻿
+using BookShelf.DataAccess.Data;
+using BookShelf.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShelfWeb.Controllers

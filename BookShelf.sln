@@ -4,6 +4,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36121.58 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelfWeb", "BookShelfWeb\BookShelfWeb.csproj", "{0C90788B-957E-4B9D-A8B4-349D15615798}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92F61B41-117E-405D-9359-A1212A2D2E6B} = {92F61B41-117E-405D-9359-A1212A2D2E6B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Utility", "BookShell.Utility\BookShelf.Utility.csproj", "{92F61B41-117E-405D-9359-A1212A2D2E6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.DataAccess", "BookShelf.DataAccess\BookShelf.DataAccess.csproj", "{BD605883-FFD9-426C-A615-3BAA77A5AF59}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92F61B41-117E-405D-9359-A1212A2D2E6B} = {92F61B41-117E-405D-9359-A1212A2D2E6B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Models", "BookShelf.Models\BookShelf.Models.csproj", "{7718DC64-6E01-4281-9918-AE9E8C86BAB2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92F61B41-117E-405D-9359-A1212A2D2E6B} = {92F61B41-117E-405D-9359-A1212A2D2E6B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +30,18 @@ Global
 		{0C90788B-957E-4B9D-A8B4-349D15615798}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C90788B-957E-4B9D-A8B4-349D15615798}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C90788B-957E-4B9D-A8B4-349D15615798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92F61B41-117E-405D-9359-A1212A2D2E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92F61B41-117E-405D-9359-A1212A2D2E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92F61B41-117E-405D-9359-A1212A2D2E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92F61B41-117E-405D-9359-A1212A2D2E6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD605883-FFD9-426C-A615-3BAA77A5AF59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD605883-FFD9-426C-A615-3BAA77A5AF59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD605883-FFD9-426C-A615-3BAA77A5AF59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD605883-FFD9-426C-A615-3BAA77A5AF59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7718DC64-6E01-4281-9918-AE9E8C86BAB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7718DC64-6E01-4281-9918-AE9E8C86BAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7718DC64-6E01-4281-9918-AE9E8C86BAB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7718DC64-6E01-4281-9918-AE9E8C86BAB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
