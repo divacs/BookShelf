@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using BookShelf.Models.Models;
-using BookShelf.Models;
 using Microsoft.AspNetCore.Mvc;
 using BookShelf.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
