@@ -1,8 +1,44 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using BookShelf.Models.Models
+@model IEnumerable<Product>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">Our Books</h2>
+
+    <div class="row g-3">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card shadow-sm rounded h-100 border-0 position-relative">
+                    <img src="@product.ImageUrl" class="card-img-top rounded-top" style="height: 250px; object-fit: cover;" />
+                    <div class="card-body text-center d-flex flex-column">
+                        <h5 class="card-title text-truncate">@product.Title</h5>
+                        <p class="text-muted mb-1">@product.Author</p>
+                        <p class="fw-bold mb-3">@product.Price.ToString("C")</p>
+
+                        <a asp-area="Customer" asp-controller="Home" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary mt-auto">
+                            Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<style>
+    .card:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .card-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-img-top {
+        width: 100%;
+    }
+</style>

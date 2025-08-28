@@ -2,6 +2,8 @@ using System.Diagnostics;
 using BookShelf.Models.Models;
 using BookShelf.Models;
 using Microsoft.AspNetCore.Mvc;
+using BookShelf.DataAccess.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookShelfWeb.Areas.Customer.Controllers
 {
@@ -9,16 +11,38 @@ namespace BookShelfWeb.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Product> products = _unitOfWork.Product.GetAll();
+            return View(products);
         }
+
+        public IActionResult Details(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            // Ucitaj proizvod po id
+            var product = _unitOfWork.Product.GetAll().FirstOrDefault(p => p.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
 
         public IActionResult Privacy()
         {
