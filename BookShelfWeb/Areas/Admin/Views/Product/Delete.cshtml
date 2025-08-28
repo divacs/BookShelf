@@ -1,0 +1,76 @@
+﻿@using BookShelf.Models.Models
+@model ProductVM
+
+<main class="container my-5" style="flex: 1 0 auto; padding-bottom: 80px;">
+    <div class="card shadow-lg rounded-3 mx-auto" style="max-width: 700px;">
+        <div class="card-header py-3 bg-danger text-white">
+            <h2 class="mb-0">Delete Product</h2>
+        </div>
+        <div class="card-body p-4">
+            <form method="post" enctype="multipart/form-data">
+                <hr />
+                <p>Are you sure you want to delete this product?</p>
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label asp-for="Product.Title" class="form-label text-dark">Title</label>
+                    <input asp-for="Product.Title" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="Product.Description" class="form-label text-dark">Description</label>
+                    <textarea asp-for="Product.Description" class="form-control form-control-lg" rows="3" disabled></textarea>
+                </div>
+
+                <!-- ISBN -->
+                <div class="mb-3">
+                    <label asp-for="Product.ISBN" class="form-label text-dark">ISBN</label>
+                    <input asp-for="Product.ISBN" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Author -->
+                <div class="mb-3">
+                    <label asp-for="Product.Author" class="form-label text-dark">Author</label>
+                    <input asp-for="Product.Author" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- List Price -->
+                <div class="mb-3">
+                    <label asp-for="Product.ListPrice" class="form-label text-dark">List Price</label>
+                    <input asp-for="Product.ListPrice" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label asp-for="Product.Price" class="form-label text-dark">Price</label>
+                    <input asp-for="Product.Price" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Price50 -->
+                <div class="mb-3">
+                    <label asp-for="Product.Price50" class="form-label text-dark">Price50</label>
+                    <input asp-for="Product.Price50" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Price100 -->
+                <div class="mb-3">
+                    <label asp-for="Product.Price100" class="form-label text-dark">Price100</label>
+                    <input asp-for="Product.Price100" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Category -->
+                <div class="mb-3">
+                    <label class="form-label text-dark">Category</label>
+                    <input class="form-control form-control-lg" value="@Model.Product.Category?.Name" disabled />
+                </div>
+
+                <!-- Dugmad -->
+                <div class="d-flex justify-content-start mt-4">
+                    <button type="submit" class="btn btn-danger me-2">Delete</button>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

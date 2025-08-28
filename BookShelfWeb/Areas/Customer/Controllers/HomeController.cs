@@ -3,8 +3,9 @@ using BookShelf.Models.Models;
 using BookShelf.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookShelfWeb.Controllers
+namespace BookShelfWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

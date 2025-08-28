@@ -1,11 +1,11 @@
 ﻿@using BookShelf.Models.Models
-@model List<Category>
+@model List<Product>
 
-<div class="container mt-5">
+<main class="container my-5" style="flex: 1 0 auto; padding-bottom: 80px;">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary mb-0">Category List</h2>
-        <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Create New Category
+        <h2 class="text-primary mb-0">Product List</h2>
+        <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create New Product
         </a>
     </div>
 
@@ -14,23 +14,29 @@
             <table class="table table-hover table-striped mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>Name</th>
-                        <th>Display Order</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>ISBN</th>
+                        <th>Price</th>
+                        <th>Category</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var obj in Model.OrderBy(u => u.DisplayOrder))
+                    @foreach (var obj in Model)
                     {
                         <tr>
-                            <td>@obj.Name</td>
-                            <td>@obj.DisplayOrder</td>
+                            <td>@obj.Title</td>
+                            <td>@obj.Author</td>
+                            <td>@obj.ISBN</td>
+                            <td>@obj.Price.ToString("C")</td>
+                            <td>@obj.Category?.Name</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
-                                    <a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-sm btn-primary">
+                                    <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-sm btn-primary">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
-                                    <a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger">
+                                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger">
                                         <i class="bi bi-trash-fill"></i> Delete
                                     </a>
                                 </div>
@@ -41,7 +47,7 @@
             </table>
         </div>
     </div>
-</div>
+</main>
 
 <style>
     .table-hover tbody tr:hover {

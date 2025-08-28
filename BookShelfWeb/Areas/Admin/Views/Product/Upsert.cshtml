@@ -1,0 +1,96 @@
+﻿@using BookShelf.Models.Models
+@model ProductVM
+
+<main class="container my-5" style="flex: 1 0 auto; padding-bottom: 80px;">
+    <div class="card shadow-lg rounded-3 mx-auto" style="max-width: 500px;">
+        <div class="card-header py-3 bg-success text-white">
+            <h2 class="mb-0">@(Model.Product.Id!=0 ? "Update" : "Create") Product</h2>
+        </div>
+        <div class="card-body p-4">
+            <form method="post" enctype="multipart/form-data">
+             <input asp-for="Product.Id" hidden />
+                <hr />
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label asp-for="Product.Title" class="form-label text-dark">Title</label>
+                    <input asp-for="Product.Title" class="form-control form-control-lg" placeholder="Enter product title" />
+                    <span asp-validation-for="Product.Title" class="text-danger"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="Product.Description" class="form-label text-dark">Description</label>
+                    <input asp-for="Product.Description" class="form-control form-control-lg" placeholder="Enter description" />
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                </div>
+
+                <!-- ISBN -->
+                <div class="mb-3">
+                    <label asp-for="Product.ISBN" class="form-label text-dark">ISBN</label>
+                    <input asp-for="Product.ISBN" class="form-control form-control-lg" placeholder="Enter ISBN" />
+                    <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+                </div>
+
+                <!-- Author -->
+                <div class="mb-3">
+                    <label asp-for="Product.Author" class="form-label text-dark">Author</label>
+                    <input asp-for="Product.Author" class="form-control form-control-lg" placeholder="Enter author name" />
+                    <span asp-validation-for="Product.Author" class="text-danger"></span>
+                </div>
+
+                <!-- List Price -->
+                <div class="mb-3">
+                    <label asp-for="Product.ListPrice" class="form-label text-dark">List Price</label>
+                    <input asp-for="Product.ListPrice" class="form-control form-control-lg" placeholder="Enter list price" />
+                    <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label asp-for="Product.Price" class="form-label text-dark">Price</label>
+                    <input asp-for="Product.Price" class="form-control form-control-lg" placeholder="Enter price for 1-50" />
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+
+                <!-- Price50 -->
+                <div class="mb-3">
+                    <label asp-for="Product.Price50" class="form-label text-dark">Price50</label>
+                    <input asp-for="Product.Price50" class="form-control form-control-lg" placeholder="Enter price for 50-100" />
+                    <span asp-validation-for="Product.Price50" class="text-danger"></span>
+                </div>
+
+                <!-- Price100 -->
+                <div class="mb-3">
+                    <label asp-for="Product.Price100" class="form-label text-dark">Price100</label>
+                    <input asp-for="Product.Price100" class="form-control form-control-lg" placeholder="Enter price for 100+" />
+                    <span asp-validation-for="Product.Price100" class="text-danger"></span>
+                </div>
+
+                <!-- Category -->
+                <div class="mb-3">
+                    <label asp-for="Product.CategoryId" class="form-label text-dark">Category</label>
+                    <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select text-dark">
+                        <option disabled selected>--Select category--</option>
+                    </select>
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                </div>
+
+                <!-- img url -->
+                <div class="mb-3">
+                    <label asp-for="Product.ImageUrl" class="form-label text-dark">Upload Image</label>
+                    <input asp-for="Product.ImageUrl" type="file" class="form-control form-control-lg" />
+                    <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+                </div>
+
+
+
+                <!-- Dugmad -->
+                <div class="d-flex justify-content-start mt-4">
+                    <button type="submit" class="btn btn-primary me-2">@(Model.Product.Id!=0 ? "Edit" : "Create")</button>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">Back to list</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

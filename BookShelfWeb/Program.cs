@@ -1,4 +1,6 @@
 using BookShelf.DataAccess.Data;
+using BookShelf.DataAccess.Repository;
+using BookShelf.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Dodaj ovo da MVC routing radi
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
@@ -25,6 +29,6 @@ app.UseRouting();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
