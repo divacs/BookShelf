@@ -79,15 +79,30 @@
                 <!-- img url -->
                 <div class="mb-3">
                     <label asp-for="Product.ImageUrl" class="form-label text-dark">Upload Image</label>
-                    <input asp-for="Product.ImageUrl" type="file" class="form-control form-control-lg" />
+
+                    <!-- Ako postoji već sačuvana slika, prikaži je -->
+                    @if (!string.IsNullOrEmpty(Model.Product.ImageUrl))
+                    {
+                        <div class="mb-2">
+                            <img src="@Model.Product.ImageUrl" alt="Current Image" style="max-width: 200px; max-height: 200px;" class="img-thumbnail" />
+                        </div>
+                    }
+
+                    <input asp-for="Product.ImageUrl" type="file" name="file" class="form-control form-control-lg" />
                     <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
                 </div>
 
-
-
                 <!-- Dugmad -->
                 <div class="d-flex justify-content-start mt-4">
-                    <button type="submit" class="btn btn-primary me-2">@(Model.Product.Id!=0 ? "Edit" : "Create")</button>
+                    @if (Model.Product.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary me-2">Create</button>
+                    }
+                    @* <button type="submit" class="btn btn-primary me-2">@(Model.Product.Id!=0 ? "Edit" : "Create")</button> *@
                     <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary">Back to list</a>
                 </div>
             </form>

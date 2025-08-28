@@ -12,9 +12,11 @@ namespace BookShelfWeb.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _hostEnvironment = hostEnvironment;
         }
         // we are returning product index page
         public IActionResult Index()
@@ -66,31 +68,62 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
-            if (!ModelState.IsValid)
+            // Proveri validnost forme
+            if (ModelState.IsValid)
             {
-                productVM.CategoryList = _unitOfWork.Category.GetAll()
-                                    .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() });
-                return View(productVM);
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+
+                // Ako postoji novi fajl, obrisi staru sliku i sacuvaj novu
+                if (file != null)
+                {
+                    // Obrisi staru sliku ako postoji
+                    if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    {
+                        string oldFilePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+
+                    // Sacuvaj novi fajl
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+                    if (!Directory.Exists(productPath))
+                    {
+                        Directory.CreateDirectory(productPath);
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+
+                    productVM.Product.ImageUrl = @"/images/product/" + fileName;
+                }
+
+                // Dodaj ili update proizvoda
+                if (productVM.Product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(productVM.Product);
+                    TempData["success"] = "Product created successfully";
+                }
+                else
+                {
+                    _unitOfWork.Product.Update(productVM.Product);
+                    TempData["success"] = "Product updated successfully";
+                }
+
+                _unitOfWork.Save();
+                return RedirectToAction(nameof(Index));
             }
 
-            if (productVM.Product.Id == 0)
-            {
-                // Create
-                _unitOfWork.Product.Add(productVM.Product);
-                TempData["success"] = "Product created successfully";
-            }
-            else
-            {
-                // Update
-                _unitOfWork.Product.Update(productVM.Product);
-                TempData["success"] = "Product updated successfully";
-            }
-
-            _unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
+            // Ako forma nije validna, vrati ponovo view sa kategorijama
+            productVM.CategoryList = _unitOfWork.Category.GetAll()
+                                        .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() });
+            return View(productVM);
         }
-
-
 
         //[HttpGet]
         //public IActionResult Edit(int id)
@@ -155,6 +188,16 @@ namespace BookShelfWeb.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        #region API CALLS
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.GetAll().ToList();
+            return Json(new { data = productList });
+        }
+
+        #endregion
     }
 }
 

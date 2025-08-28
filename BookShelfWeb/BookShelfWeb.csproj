@@ -25,8 +25,4 @@
     <ProjectReference Include="..\BookShelf.Models\BookShelf.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
