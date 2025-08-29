@@ -2,7 +2,6 @@ using System.Diagnostics;
 using BookShelf.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using BookShelf.DataAccess.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookShelfWeb.Areas.Customer.Controllers
 {
