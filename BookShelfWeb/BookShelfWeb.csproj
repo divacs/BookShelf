@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BookShelf.DataAccess\BookShelf.DataAccess.csproj" />
     <ProjectReference Include="..\BookShelf.Models\BookShelf.Models.csproj" />
+    <ProjectReference Include="..\BookShell.Utility\BookShelf.Utility.csproj" />
   </ItemGroup>
 	<PropertyGroup>
 		<StaticWebAssetBuildTasksEnabled>false</StaticWebAssetBuildTasksEnabled>
