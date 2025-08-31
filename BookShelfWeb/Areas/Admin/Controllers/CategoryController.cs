@@ -2,11 +2,14 @@
 using BookShelf.DataAccess.Data;
 using BookShelf.DataAccess.Repository.IRepository;
 using BookShelf.Models.Models;
+using BookShelf.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShelfWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

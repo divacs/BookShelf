@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using BookShelf.Utility
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,7 +30,7 @@
                         <li class="nav-item">
                             <a class="nav-link " asp-controller="Home" asp-area="Customer" asp-action="Privacy">Privacy</a>
                         </li>
-                        
+                        @if(User.IsInRole(SD.Role_Admin)){
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Content Managment
@@ -42,7 +44,7 @@
                                 </li>
                             </ul>
                         </li>
-
+                        }
                     </ul>
                     <partial name="_LoginPartial"/>
                 </div>
