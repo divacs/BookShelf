@@ -8,35 +8,49 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Dodavanje servisa u container
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+// Konfiguracija Identity sa default token provajderima
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders(); // <-- ovo registruje "Default" token provider
 
+// Dodavanje Razor Pages i MVC servisa
 builder.Services.AddRazorPages();
-
-// Dodaj ovo da MVC routing radi
 builder.Services.AddControllersWithViews();
+
+// Registracija repozitorijuma i servisa
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Konfiguracija HTTP pipeline-a
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
+// Dodaj autentifikaciju i autorizaciju
+app.UseAuthentication();
 app.UseAuthorization();
+
+// Razor Pages
 app.MapRazorPages();
 
+// MVC Routing
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
