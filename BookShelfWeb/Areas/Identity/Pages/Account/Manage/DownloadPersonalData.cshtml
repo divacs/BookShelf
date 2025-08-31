@@ -1,10 +1,30 @@
 ﻿@page
 @model DownloadPersonalDataModel
 @{
-    ViewData["Title"] = "Download Personal Data";
+    ViewData["Title"] = "Download Your Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    <p>Preuzmite kopiju svih podataka sa vašeg naloga.</p>
-</header>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-lg rounded-4 p-4 text-center" style="max-width: 500px; width: 100%;">
+        <div class="card-body">
+            <h2 class="mb-3">@ViewData["Title"]</h2>
+            <hr />
+
+            <p class="text-muted mb-4">
+                You can download a copy of all your personal data stored in this application.
+                The data will be provided in a JSON format.
+            </p>
+
+            <form method="post">
+                <button class="btn btn-primary w-100 py-2 rounded-3 fw-semibold" type="submit">
+                    📥 Download My Data
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
