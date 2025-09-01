@@ -40,6 +40,11 @@
                         <option disable selected>--Select Role--</option>
                     </select>
                 </div>
+                <div class="form-floating mb-4">
+                    <select asp-for="Input.CompanyId" style="display:none;" asp-items="@Model.Input.CompanyList" class="form-select">
+                        <option disable selected>--Select Company--</option>
+                    </select>
+                </div>
 
                 <button id="registerSubmit" type="submit" class="btn btn-primary w-100 py-2 rounded-3 fw-semibold">
                     Register
@@ -68,4 +73,21 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            // Hide Company dropdown initially
+            var companyDropdown = $('select[asp-for="Input.CompanyId"]');
+            companyDropdown.hide();
+            // Show/hide Company dropdown based on Role selection
+            $('select[asp-for="Input.Role"]').change(function () {
+                var selectedRole = $(this).val();
+                if (selectedRole === 'Company') { // Adjust the value as per your RoleList
+                    companyDropdown.show();
+                } else {
+                    companyDropdown.hide();
+                    companyDropdown.val(''); // Clear selection if hidden
+                }
+            });
+        });
+    </script>
 }
