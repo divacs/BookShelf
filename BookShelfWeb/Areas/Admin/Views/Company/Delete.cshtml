@@ -1,0 +1,57 @@
+﻿@model BookShelf.Models.Models.Company
+
+<main class="container my-5" style="flex: 1 0 auto; padding-bottom: 80px;">
+    <div class="card shadow-lg rounded-3 mx-auto" style="max-width: 700px;">
+        <div class="card-header py-3 bg-danger text-white">
+            <h2 class="mb-0">Delete Company</h2>
+        </div>
+        <div class="card-body p-4">
+            <form method="post">
+                <hr />
+                <p>Are you sure you want to delete this company?</p>
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label text-dark">Name</label>
+                    <input asp-for="Name" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Street Address -->
+                <div class="mb-3">
+                    <label asp-for="StreetAddress" class="form-label text-dark">Street Address</label>
+                    <input asp-for="StreetAddress" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- City -->
+                <div class="mb-3">
+                    <label asp-for="City" class="form-label text-dark">City</label>
+                    <input asp-for="City" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- State -->
+                <div class="mb-3">
+                    <label asp-for="State" class="form-label text-dark">State</label>
+                    <input asp-for="State" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Postal Code -->
+                <div class="mb-3">
+                    <label asp-for="PostalCode" class="form-label text-dark">Postal Code</label>
+                    <input asp-for="PostalCode" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Phone Number -->
+                <div class="mb-3">
+                    <label asp-for="PhoneNumber" class="form-label text-dark">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control form-control-lg" disabled />
+                </div>
+
+                <!-- Dugmad -->
+                <div class="d-flex justify-content-start mt-4">
+                    <button type="submit" class="btn btn-danger me-2">Delete</button>
+                    <a asp-controller="Company" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

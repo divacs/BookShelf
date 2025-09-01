@@ -1,0 +1,61 @@
+﻿@model IEnumerable<BookShelf.Models.Models.Company>
+
+<main class="container my-5" style="flex: 1 0 auto; padding-bottom: 80px;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary mb-0">Company List</h2>
+        <a asp-controller="Company" asp-action="Upsert" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create New Company
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Street Address</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Postal Code</th>
+                        <th>Phone Number</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <td>@obj.Name</td>
+                            <td>@obj.StreetAddress</td>
+                            <td>@obj.City</td>
+                            <td>@obj.State</td>
+                            <td>@obj.PostalCode</td>
+                            <td>@obj.PhoneNumber</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a asp-controller="Company" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </a>
+                                    <a asp-controller="Company" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-sm btn-danger">
+                                        <i class="bi bi-trash-fill"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa; /* svetlija pozadina na hover */
+    }
+
+    .btn-group .btn {
+        min-width: 80px;
+    }
+</style>

@@ -1,0 +1,70 @@
+﻿@model BookShelf.Models.Models.Company
+
+<main class="container my-5" style="flex: 1 0 auto; padding-bottom: 80px;">
+    <div class="card shadow-lg rounded-3 mx-auto" style="max-width: 500px;">
+        <div class="card-header py-3 bg-success text-white">
+            <h2 class="mb-0">@(Model.Id != 0 ? "Update" : "Create") Company</h2>
+        </div>
+        <div class="card-body p-4">
+            <form method="post">
+                <input asp-for="Id" hidden />
+                <hr />
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label text-dark">Name</label>
+                    <input asp-for="Name" class="form-control form-control-lg" placeholder="Enter company name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Street Address -->
+                <div class="mb-3">
+                    <label asp-for="StreetAddress" class="form-label text-dark">Street Address</label>
+                    <input asp-for="StreetAddress" class="form-control form-control-lg" placeholder="Enter street address" />
+                    <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                </div>
+
+                <!-- City -->
+                <div class="mb-3">
+                    <label asp-for="City" class="form-label text-dark">City</label>
+                    <input asp-for="City" class="form-control form-control-lg" placeholder="Enter city" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+                <!-- State -->
+                <div class="mb-3">
+                    <label asp-for="State" class="form-label text-dark">State</label>
+                    <input asp-for="State" class="form-control form-control-lg" placeholder="Enter state" />
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+
+                <!-- Postal Code -->
+                <div class="mb-3">
+                    <label asp-for="PostalCode" class="form-label text-dark">Postal Code</label>
+                    <input asp-for="PostalCode" class="form-control form-control-lg" placeholder="Enter postal code" />
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="mb-3">
+                    <label asp-for="PhoneNumber" class="form-label text-dark">Phone Number</label>
+                    <input asp-for="PhoneNumber" class="form-control form-control-lg" placeholder="Enter phone number" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <!-- Dugmad -->
+                <div class="d-flex justify-content-start mt-4">
+                    @if (Model.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-primary me-2">Update</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary me-2">Create</button>
+                    }
+                    <a asp-controller="Company" asp-action="Index" class="btn btn-outline-secondary">Back to list</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
