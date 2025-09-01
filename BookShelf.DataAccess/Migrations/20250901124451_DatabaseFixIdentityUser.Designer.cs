@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookShelf.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250901115550_AddCompanyRecords")]
-    partial class AddCompanyRecords
+    [Migration("20250901124451_DatabaseFixIdentityUser")]
+    partial class DatabaseFixIdentityUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
