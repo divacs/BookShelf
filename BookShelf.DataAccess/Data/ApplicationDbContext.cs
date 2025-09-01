@@ -40,6 +40,40 @@ namespace BookShelf.DataAccess.Data
                     DisplayOrder = 3 
                 }
             );
+
+            modelBuilder.Entity<Company>().HasData(
+                new Company
+                {
+                    Id = 1,
+                    Name = "Vivid Books",
+                    StreetAddress = "999 vid st",
+                    City = "Vid City",
+                    PostalCode = "7777777",
+                    State = "TL",
+                    PhoneNumber = "9798786776"
+                },
+                new Company
+                {
+                    Id = 2,
+                    Name = "Vivid Tech",
+                    StreetAddress = "999 mil st",
+                    City = "Mil City",
+                    PostalCode = "112200",
+                    State = "TL",
+                    PhoneNumber = "09752353425"
+                },
+                new Company
+                {
+                    Id = 3,
+                    Name = "Mark Books",
+                    StreetAddress = "999 mark st",
+                    City = "Mark City",
+                    PostalCode = "1122099",
+                    State = "KJ",
+                    PhoneNumber = "654444444442"
+                }
+            );
+
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
