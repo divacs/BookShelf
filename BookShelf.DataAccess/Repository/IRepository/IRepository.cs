@@ -14,5 +14,8 @@ namespace BookShelf.DataAccess.Repository.IRepository
         void Add(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entity);
+        T Get(Expression<Func<T, bool>> filter, string includeProperties = null);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null
+);
     }
 }

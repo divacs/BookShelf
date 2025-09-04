@@ -17,13 +17,15 @@
                             <span class="text-muted me-1" style="text-decoration: line-through;">@product.ListPrice.ToString("C")</span>
                             <span class="fw-bold text-danger">@product.Price.ToString("C")</span>
                         </div>
-                        <a asp-area="Customer" asp-controller="Home" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary mt-auto">
+                        <!-- OVO JE DUGME KOJE VODI NA Details -->
+                        <a asp-area="Customer" asp-controller="Home" asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary mt-auto">
                             Details
                         </a>
                     </div>
                 </div>
             </div>
         }
+
     </div>
 </div>
 

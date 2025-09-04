@@ -1,56 +1,40 @@
-using System.Diagnostics;
+using BookShelf.DataAccess.Repository.IRepository;
 using BookShelf.Models.Models;
 using Microsoft.AspNetCore.Mvc;
-using BookShelf.DataAccess.Repository.IRepository;
 
-namespace BookShelfWeb.Areas.Customer.Controllers
+[Area("Customer")]
+public class HomeController : Controller
 {
-    [Area("Customer")]
-    public class HomeController : Controller
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IUnitOfWork _unitOfWork;
+        _logger = logger;
+        _unitOfWork = unitOfWork;
+    }
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+    public IActionResult Index()
+    {
+        var productList = _unitOfWork.Product.GetAll();
+        return View(productList);
+    }
+
+    // GET: Details
+    public IActionResult Details(int productId)
+    {
+        var product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category");
+
+        if (product == null)
+            return NotFound();
+
+        var cart = new ShoppingCart
         {
-            _logger = logger;
-            _unitOfWork = unitOfWork;
-        }
+            Product = product,
+            ProductId = productId,
+            Count = 1
+        };
 
-        public IActionResult Index()
-        {
-            IEnumerable<Product> products = _unitOfWork.Product.GetAll();
-            return View(products);
-        }
-
-        public IActionResult Details(int id)
-        {
-            if (id == 0)
-            {
-                return NotFound();
-            }
-
-            // Ucitaj proizvod po id
-            var product = _unitOfWork.Product.GetAll().FirstOrDefault(p => p.Id == id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        return View(cart);
     }
 }
