@@ -25,7 +25,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.SignIn.RequireConfirmedAccount = true;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders(); // <-- ovo registruje "Default" token provider
+.AddDefaultTokenProviders();
 
 // Dodavanje Razor Pages i MVC servisa
 builder.Services.AddRazorPages();
@@ -39,6 +39,15 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+
+// **Dodaj ovo za session**
+builder.Services.AddDistributedMemoryCache(); // potrebna memorija za session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // koliko dugo session traje
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -54,7 +63,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Dodaj autentifikaciju i autorizaciju
+// **Session middleware mora biti pre Authorization**
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

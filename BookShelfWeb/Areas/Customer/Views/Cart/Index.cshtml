@@ -9,6 +9,12 @@
     }
     else
     {
+        <!-- Ukupan broj artikala i ukupna cena -->
+        <div class="mb-3">
+            <p class="fw-bold mb-1">Ukupno artikala: @Model.Sum(c => c.Count)</p>
+            <p class="fw-bold mb-0">Ukupna cena: @Model.Sum(c => c.Count * c.Product.Price).ToString("C")</p>
+        </div>
+
         <table class="table table-bordered align-middle">
             <thead class="table-light">
                 <tr>
@@ -16,6 +22,7 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -27,8 +34,19 @@
                             @item.Product.Title
                         </td>
                         <td>@item.Product.Price.ToString("C")</td>
-                        <td>@item.Count</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-outline-secondary btn-sm">-</a>
+                                <span class="mx-2">@item.Count</span>
+                                <a asp-action="Plus" asp-route-cartId="@item.Id" class="btn btn-outline-secondary btn-sm">+</a>
+                            </div>
+                        </td>
                         <td>@(item.Count * item.Product.Price).ToString("C")</td>
+                        <td>
+                            <a asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Remove
+                            </a>
+                        </td>
                     </tr>
                 }
             </tbody>
