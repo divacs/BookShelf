@@ -9,22 +9,22 @@ using System.Threading.Tasks;
 
 namespace BookShelf.Models.Models
 {
-    public class ShoppingCart
+    public class OrderDetail
     {
-        [Key]
         public int Id { get; set; }
+        [Required]
+        public int OrderHeaderId { get; set; }
+        [ForeignKey("OrderHeaderId")]
+        [ValidateNever]
+        public OrderHeader OrderHeader { get; set; }
+
+        [Required]
         public int ProductId { get; set; }
-        public Product Product { get; set; }
         [ForeignKey("ProductId")]
         [ValidateNever]
-        [Range(1, 1000, ErrorMessage = "Please enter a value between 1 and 1000")]
-        public int Count { get; set; }
-        public string ApplicationUserId { get; set; }
-        [ForeignKey("ApplicationUserId")]
-        [ValidateNever]
-        public ApplicationUser ApplicationUser { get; set; }
+        public Product Product { get; set; }
 
-        [NotMapped]
+        public int Count { get; set; }
         public double Price { get; set; }
     }
 }
