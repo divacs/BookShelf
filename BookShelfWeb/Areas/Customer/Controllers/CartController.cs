@@ -44,29 +44,44 @@ namespace BookShelfWeb.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var shoppingCartVM = new ShoppingCartVM 
+            var shoppingCartVM = new ShoppingCartVM
             {
-                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
-                includeProperties: "Product"),
+                ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(
+                    u => u.ApplicationUserId == userId,
+                    includeProperties: "Product"),
                 OrderHeader = new()
             };
 
             shoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
-            shoppingCartVM.OrderHeader.Name = shoppingCartVM.OrderHeader.ApplicationUser.Name;
-            shoppingCartVM.OrderHeader.PhoneNumber = shoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
-            shoppingCartVM.OrderHeader.StreetAddress = shoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
-            shoppingCartVM.OrderHeader.City = shoppingCartVM.OrderHeader.ApplicationUser.City;
-            shoppingCartVM.OrderHeader.State = shoppingCartVM.OrderHeader.ApplicationUser.State;
-            shoppingCartVM.OrderHeader.PostalCode = shoppingCartVM.OrderHeader.ApplicationUser.PostalCode;
+            // Prepopulate samo ako nisu null/prazni
+            if (!string.IsNullOrEmpty(shoppingCartVM.OrderHeader.ApplicationUser.Name))
+                shoppingCartVM.OrderHeader.Name = shoppingCartVM.OrderHeader.ApplicationUser.Name;
+
+            if (!string.IsNullOrEmpty(shoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber))
+                shoppingCartVM.OrderHeader.PhoneNumber = shoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
+
+            if (!string.IsNullOrEmpty(shoppingCartVM.OrderHeader.ApplicationUser.StreetAddress))
+                shoppingCartVM.OrderHeader.StreetAddress = shoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
+
+            if (!string.IsNullOrEmpty(shoppingCartVM.OrderHeader.ApplicationUser.City))
+                shoppingCartVM.OrderHeader.City = shoppingCartVM.OrderHeader.ApplicationUser.City;
+
+            if (!string.IsNullOrEmpty(shoppingCartVM.OrderHeader.ApplicationUser.State))
+                shoppingCartVM.OrderHeader.State = shoppingCartVM.OrderHeader.ApplicationUser.State;
+
+            if (!string.IsNullOrEmpty(shoppingCartVM.OrderHeader.ApplicationUser.PostalCode))
+                shoppingCartVM.OrderHeader.PostalCode = shoppingCartVM.OrderHeader.ApplicationUser.PostalCode;
 
             foreach (var cart in shoppingCartVM.ShoppingCartList)
             {
                 cart.Price = GetPriceBasedOnQuantity(cart);
                 shoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
+
             return View(shoppingCartVM);
         }
+
 
         // POST: Cart/Plus/5
         public IActionResult Plus(int cartId)
@@ -80,6 +95,64 @@ namespace BookShelfWeb.Areas.Customer.Controllers
 
             UpdateSessionCart(cartItem?.ApplicationUserId);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ActionName("Summary")]
+        public IActionResult SummaryPOST(ShoppingCartVM shoppingCartVM)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            shoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(
+                u => u.ApplicationUserId == userId,
+                includeProperties: "Product");
+
+            shoppingCartVM.OrderHeader.ApplicationUserId = userId;
+            shoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
+
+            foreach (var cart in shoppingCartVM.ShoppingCartList)
+            {
+                cart.Price = GetPriceBasedOnQuantity(cart);
+                shoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+            }
+
+            var applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+
+            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
+            {
+                shoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
+                shoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+            }
+            else
+            {
+                shoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
+                shoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
+            }
+
+            _unitOfWork.OrderHeader.Add(shoppingCartVM.OrderHeader);
+            _unitOfWork.Save();
+
+            foreach (var cart in shoppingCartVM.ShoppingCartList)
+            {
+                var orderDetail = new OrderDetail
+                {
+                    ProductId = cart.ProductId,
+                    OrderHeaderId = shoppingCartVM.OrderHeader.Id,
+                    Price = cart.Price,
+                    Count = cart.Count
+                };
+                _unitOfWork.OrderDetail.Add(orderDetail);
+            }
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(OrderConfirmation), new { id = shoppingCartVM.OrderHeader.Id });
+        }
+
+
+        public IActionResult OrderConfirmation(int id)
+        {
+            return View(id);
         }
 
         // POST: Cart/Minus/5

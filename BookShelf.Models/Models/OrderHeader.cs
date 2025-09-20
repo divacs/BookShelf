@@ -31,8 +31,8 @@ namespace BookShelf.Models.Models
         public string PhoneNumber { get; set; }
         [Required]
         public string StreetAddress { get; set; }
-        [Required]
-        public string City { get; set; }
+        [Required] 
+        public string City { get; set; } = String.Empty;
         [Required]
         public string State { get; set; }
         [Required]
