@@ -76,10 +76,10 @@ namespace BookShelfWeb.Areas.Admin.Controllers
             {
                 string wwwRootPath = _hostEnvironment.WebRootPath;
 
-                // Ako postoji novi fajl, obrisi staru sliku i sacuvaj novu
+                // if new file exists delete old and save new img
                 if (file != null)
                 {
-                    // Obrisi staru sliku ako postoji
+                    // delete old img
                     if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
                     {
                         string oldFilePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
@@ -89,7 +89,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
                         }
                     }
 
-                    // Sacuvaj novi fajl
+                    // save new file
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath, @"images\product");
 
@@ -106,7 +106,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
                     productVM.Product.ImageUrl = @"/images/product/" + fileName;
                 }
 
-                // Dodaj ili update proizvoda
+                // add or update product
                 if (productVM.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(productVM.Product);
@@ -122,7 +122,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Ako forma nije validna, vrati ponovo view sa kategorijama
+            // if form is not valid, repopulate CategoryList and return the view
             productVM.CategoryList = _unitOfWork.Category.GetAll()
                                         .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() });
             return View(productVM);
@@ -156,7 +156,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         //        return RedirectToAction(nameof(Index));
         //    }
 
-        //    // Ponovo popuni CategoryList ako validacija ne uspe
+        //    // 
         //    vm.CategoryList = _unitOfWork.Category.GetAll()
         //                            .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })
         //                            .ToList();

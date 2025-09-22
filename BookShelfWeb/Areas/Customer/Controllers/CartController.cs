@@ -54,7 +54,7 @@ namespace BookShelfWeb.Areas.Customer.Controllers
 
             shoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
-            // Prepopulate samo ako nisu null/prazni
+            // if ApplicationUser is not null, populate OrderHeader fields
             if (!string.IsNullOrEmpty(shoppingCartVM.OrderHeader.ApplicationUser.Name))
                 shoppingCartVM.OrderHeader.Name = shoppingCartVM.OrderHeader.ApplicationUser.Name;
 
@@ -212,14 +212,14 @@ namespace BookShelfWeb.Areas.Customer.Controllers
                 return RedirectToAction("Login", "Account", new { area = "Identity" });
             }
 
-            // Nađi item u korpi ako već postoji
+            // find if the product already exists in the cart for this user
             var cartItem = _unitOfWork.ShoppingCart.Get(
                 u => u.ApplicationUserId == userId && u.ProductId == productId
             );
 
             if (cartItem == null)
             {
-                // Ako ne postoji → napravi novi
+                // if it doesn't exist, create a new cart item
                 cartItem = new ShoppingCart
                 {
                     ApplicationUserId = userId,
@@ -230,13 +230,13 @@ namespace BookShelfWeb.Areas.Customer.Controllers
             }
             else
             {
-                // Ako već postoji → samo povećaj Count
+                // if it exists, update the count
                 cartItem.Count += count;
             }
 
             _unitOfWork.Save();
 
-            // Ažuriraj Session broj artikala
+            // update the session cart count
             int cartCount = _unitOfWork.ShoppingCart
                 .GetAll(u => u.ApplicationUserId == userId)
                 .Sum(u => u.Count);

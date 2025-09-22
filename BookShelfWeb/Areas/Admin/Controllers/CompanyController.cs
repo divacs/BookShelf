@@ -65,11 +65,11 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(Company companyObj)
         {
-            // Proveri validnost forme
+            // Check the form validity
             if (ModelState.IsValid)
             {
 
-                // Dodaj ili update proizvoda
+                // Add or update the company based on whether it's a new or existing entity
                 if (companyObj.Id == 0)
                 {
                     _unitOfWork.Company.Add(companyObj);
@@ -86,7 +86,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
             }
             else
             {
-                // Ako forma nije validna, vrati ponovo view sa kategorijama   
+                // if the model state is not valid, return the same view with the company object to show validation errors  
                 return View(companyObj);
             }
         }
@@ -119,7 +119,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         //        return RedirectToAction(nameof(Index));
         //    }
 
-        //    // Ponovo popuni CategoryList ako validacija ne uspe
+        //    // 
         //    vm.CategoryList = _unitOfWork.Category.GetAll()
         //                            .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })
         //                            .ToList();
