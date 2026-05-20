@@ -86,7 +86,8 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         // POST: Cart/Plus/5
         public IActionResult Plus(int cartId)
         {
-            var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var userId = GetCurrentUserId();
+            var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId && u.ApplicationUserId == userId);
             if (cartItem != null)
             {
                 cartItem.Count += 1;
@@ -158,7 +159,8 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         // POST: Cart/Minus/5
         public IActionResult Minus(int cartId)
         {
-            var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var userId = GetCurrentUserId();
+            var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId && u.ApplicationUserId == userId);
             if (cartItem != null)
             {
                 if (cartItem.Count <= 1)
@@ -179,7 +181,8 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         // POST: Cart/Remove/5
         public IActionResult Remove(int cartId)
         {
-            var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+            var userId = GetCurrentUserId();
+            var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId && u.ApplicationUserId == userId);
             if (cartItem != null)
             {
                 _unitOfWork.ShoppingCart.Remove(cartItem);
@@ -188,6 +191,12 @@ namespace BookShelfWeb.Areas.Customer.Controllers
 
             UpdateSessionCart(cartItem?.ApplicationUserId);
             return RedirectToAction(nameof(Index));
+        }
+
+        private string GetCurrentUserId()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            return claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         private void UpdateSessionCart(string? userId)
