@@ -29,6 +29,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
             //if (obj.Name == obj.DisplayOrder.ToString())
@@ -59,6 +60,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
             return View(categoryFromDb);
         }
         [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Category obj)
         {
             if (ModelState.IsValid)
@@ -86,6 +88,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult DeletePOST(int? id)
         {
             Category? obj = _unitOfWork.Category.Get(u => u.Id == id);

@@ -102,6 +102,7 @@ namespace BookShelfWeb.Areas.Customer.Controllers
 
         [HttpPost]
         [ActionName("Summary")]
+        [ValidateAntiForgeryToken]
         public IActionResult SummaryPOST(ShoppingCartVM shoppingCartVM)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
