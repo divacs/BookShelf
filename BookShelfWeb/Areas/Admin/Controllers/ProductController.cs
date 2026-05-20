@@ -7,6 +7,7 @@ using BookShelf.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookShelfWeb.Areas.Admin.Controllers
 {
@@ -14,10 +15,16 @@ namespace BookShelfWeb.Areas.Admin.Controllers
     [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
+        private const long MaxImageSize = 2 * 1024 * 1024;
+        private static readonly string[] AllowedImageExtensions = [".jpg", ".jpeg", ".png"];
+        private static readonly string[] AllowedImageContentTypes = ["image/jpeg", "image/png"];
+
+        private readonly ApplicationDbContext _db;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _hostEnvironment;
-        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
+        public ProductController(ApplicationDbContext db, IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
         {
+            _db = db;
             _unitOfWork = unitOfWork;
             _hostEnvironment = hostEnvironment;
         }
@@ -71,24 +78,29 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
+            string? existingImageUrl = null;
+            if (productVM.Product.Id != 0)
+            {
+                existingImageUrl = _db.Products
+                    .AsNoTracking()
+                    .Where(u => u.Id == productVM.Product.Id)
+                    .Select(u => u.ImageUrl)
+                    .FirstOrDefault();
+            }
+
+            if (file != null)
+            {
+                ValidateImageFile(file);
+            }
+
             // Proveri validnost forme
             if (ModelState.IsValid)
             {
                 string wwwRootPath = _hostEnvironment.WebRootPath;
 
-                // if new file exists delete old and save new img
+                // if new file exists save new img and then delete old img
                 if (file != null)
                 {
-                    // delete old img
-                    if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
-                    {
-                        string oldFilePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
-                        if (System.IO.File.Exists(oldFilePath))
-                        {
-                            System.IO.File.Delete(oldFilePath);
-                        }
-                    }
-
                     // save new file
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath, @"images\product");
@@ -104,6 +116,20 @@ namespace BookShelfWeb.Areas.Admin.Controllers
                     }
 
                     productVM.Product.ImageUrl = @"/images/product/" + fileName;
+
+                    // delete old img after the new img is saved successfully
+                    if (!string.IsNullOrEmpty(existingImageUrl))
+                    {
+                        string oldFilePath = Path.Combine(wwwRootPath, existingImageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
+                    }
+                }
+                else if (productVM.Product.Id != 0)
+                {
+                    productVM.Product.ImageUrl = existingImageUrl ?? string.Empty;
                 }
 
                 // add or update product
@@ -123,9 +149,33 @@ namespace BookShelfWeb.Areas.Admin.Controllers
             }
 
             // if form is not valid, repopulate CategoryList and return the view
+            if (productVM.Product.Id != 0)
+            {
+                productVM.Product.ImageUrl = existingImageUrl ?? string.Empty;
+            }
             productVM.CategoryList = _unitOfWork.Category.GetAll()
                                         .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() });
             return View(productVM);
+        }
+
+        private void ValidateImageFile(IFormFile file)
+        {
+            string extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!AllowedImageExtensions.Contains(extension))
+            {
+                ModelState.AddModelError("Product.ImageUrl", "Only JPG, JPEG, and PNG images are allowed.");
+            }
+
+            if (!AllowedImageContentTypes.Contains(file.ContentType, StringComparer.OrdinalIgnoreCase))
+            {
+                ModelState.AddModelError("Product.ImageUrl", "Only JPEG and PNG image content types are allowed.");
+            }
+
+            if (file.Length > MaxImageSize)
+            {
+                ModelState.AddModelError("Product.ImageUrl", "Image size must be 2 MB or smaller.");
+            }
         }
 
         //[HttpGet]
