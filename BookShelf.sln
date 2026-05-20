@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelfWeb", "BookShelfWe
 		{92F61B41-117E-405D-9359-A1212A2D2E6B} = {92F61B41-117E-405D-9359-A1212A2D2E6B}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Utility", "BookShell.Utility\BookShelf.Utility.csproj", "{92F61B41-117E-405D-9359-A1212A2D2E6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.Utility", "BookShelf.Utility\BookShelf.Utility.csproj", "{92F61B41-117E-405D-9359-A1212A2D2E6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookShelf.DataAccess", "BookShelf.DataAccess\BookShelf.DataAccess.csproj", "{BD605883-FFD9-426C-A615-3BAA77A5AF59}"
 	ProjectSection(ProjectDependencies) = postProject
