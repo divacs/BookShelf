@@ -98,6 +98,13 @@ From the repository root:
 dotnet ef database update --project BookShelf.DataAccess --startup-project BookShelfWeb
 ```
 
+This creates or updates the local database using the existing EF Core
+migrations in `BookShelf.DataAccess/Migrations`.
+
+Do not manually edit, rename, delete, or squash existing migration files if they
+may already have been applied to a database. Add a new migration only when model
+changes require a schema update.
+
 ### Run the App
 
 ```bash
@@ -134,4 +141,3 @@ from the registration page code path if they do not already exist.
 - Add tests for cart, order, and admin workflows
 - Improve seed/admin setup documentation
 - Add deployment documentation after deployment is actually configured
-
