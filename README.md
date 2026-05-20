@@ -1,113 +1,137 @@
-# 📚 BookShelf
+# BookShelf
 
-**BookShelf** is a modern **.NET 8 MVC web application** for **buying and
-managing books**.\
-It was developed as a **showcase project** with emphasis on **clean
-architecture, scalability, and real-world e-commerce practices**.
+BookShelf is a .NET 8 ASP.NET Core MVC web application for browsing books,
+managing product data, adding books to a shopping cart, and creating basic
+orders.
 
-------------------------------------------------------------------------
+The project is structured as a small portfolio application with separate web,
+model, data access, and utility layers.
 
-## 🚀 Technologies & Architecture
+## Features
 
--   **.NET 8 MVC** with Razor Pages\
--   **N-Tier Architecture** (UI, Application, Infrastructure, Domain)\
--   **Repository Pattern + Unit of Work**\
--   **Entity Framework Core** (Code First + Migrations)\
--   **ASP.NET Identity** (scaffolded & customized)\
--   **Role-based Authorization** (Admin, Manager, Customer)\
--   **Facebook Single Sign-On (SSO)**\
--   **ViewData / ViewBag / TempData**\
--   **Session Management** in .NET Core\
--   **View Components** for reusability\
--   **SweetAlert integration** for better UX
+- Public customer area for browsing products and viewing product details
+- Shopping cart for authenticated users
+- Basic order summary and order creation flow
+- Admin area for managing categories, products, and companies
+- ASP.NET Identity registration, login, roles, and account pages
+- Role-based access for the Admin area
+- Product image upload for admin product management
+- EF Core migrations and seed data for categories, companies, and sample products
+- Session-based cart count support
+- Development/mock email sender for Identity email flows
 
-📌 Note: Stripe (payments) and SendGrid (emails) were not implemented
-due to service restrictions in Serbia, but their integration flow and
-configuration in .NET were studied.\
-The same applies for **Azure App Service deployment** --- process was
-fully researched.
+## Tech Stack
 
-------------------------------------------------------------------------
+- .NET 8
+- ASP.NET Core MVC
+- Razor Pages for ASP.NET Identity
+- Entity Framework Core
+- SQL Server
+- ASP.NET Core Identity
+- Repository Pattern and Unit of Work
+- Bootstrap
+- jQuery validation
+- Toastr notifications
 
-## 🎯 Features
+## Project Structure
 
--   ✅ Book purchase flow\
--   ✅ Role-based user management (Admin Panel)\
--   ✅ Facebook login (SSO)\
--   ✅ SweetAlert notifications and validations
-
-------------------------------------------------------------------------
-
-## 🏗️ Project Structure
-
-    BookShelf/
-    │-- BookShelf.Web (UI Layer - MVC + Razor Pages + Areas)
-    │   │-- Areas/
-    │   │   │-- Admin (Controllers + Views: Category, Company, Product)
-    │   │   │-- Customer (Controllers + Views: Cart, Home)
-    │   │   │-- Identity (Account management, Identity scaffolding)
-    │   │   │-- Shared (Layouts, partial views, components)
-    │
-    │-- BookShelf.DataAccess (EF Core, Repositories, UnitOfWork, DbContext, Migrations)
-    │-- BookShelf.Models (Entities, ViewModels)
-    │-- BookShelf.Utility (Helper classes: EmailSender, constants, extensions)
-
-------------------------------------------------------------------------
-
-## ⚡ Installation & Setup
-
-1.  Clone the repository\
-
-``` bash
-git clone https://github.com/divacs/BookShelf.git
-cd BookShelf
+```text
+BookShelf/
+|-- BookShelfWeb/          Web app, MVC controllers, Razor views, Identity pages
+|-- BookShelf.DataAccess/  EF Core DbContext, repositories, UnitOfWork, migrations
+|-- BookShelf.Models/      Entity models and view models
+|-- BookShelf.Utility/     Shared constants and development email sender
+|-- BookShelf.sln          Visual Studio solution
 ```
 
-2.  Apply migrations and create the database\
+Main web areas:
 
-``` bash
-dotnet ef database update
+```text
+BookShelfWeb/Areas/Admin     Category, Product, and Company management
+BookShelfWeb/Areas/Customer  Home, product details, cart, and order summary
+BookShelfWeb/Areas/Identity  Scaffolded ASP.NET Identity pages
 ```
 
-3.  Run the application\
+## Setup Instructions
 
-``` bash
-dotnet run --project BookShelf.Web
+### Prerequisites
+
+- .NET 8 SDK
+- SQL Server or SQL Server Express
+- Entity Framework Core CLI tools
+
+If EF tools are not installed:
+
+```bash
+dotnet tool install --global dotnet-ef
 ```
 
-4.  Open in browser\
+### Restore Packages
 
-```{=html}
-<!-- -->
+From the repository root:
+
+```bash
+dotnet restore
 ```
-    https://localhost:5001
 
-------------------------------------------------------------------------
+### Configure the Database
 
-## 🔑 Roles & Login
+Update the `DefaultConnection` connection string in:
 
--   **Admin** -- full access (books, users, orders)\
--   **Manager** -- access to reports and orders\
--   **Customer** -- purchase and account features
+```text
+BookShelfWeb/appsettings.json
+```
 
+Example:
 
-------------------------------------------------------------------------
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=YOUR_SERVER;Database=BookShelfDB;Trusted_Connection=True;TrustServerCertificate=True"
+}
+```
 
-## ☁️ Deployment & Integrations
+### Apply Migrations
 
--   **Azure App Service deployment** -- studied\
--   **Stripe integration** -- studied (payments, refunds)\
--   **SendGrid integration** -- studied (email notifications)
+From the repository root:
 
-------------------------------------------------------------------------
+```bash
+dotnet ef database update --project BookShelf.DataAccess --startup-project BookShelfWeb
+```
 
-## 📬 Contact
+### Run the App
 
-👩‍💻 Author: Sonja Divac\
-📧 Email: sonja.divac@yahoo.com
+```bash
+dotnet run --project BookShelfWeb
+```
 
-------------------------------------------------------------------------
+Then open the HTTPS URL shown in the terminal.
 
-✨ **BookShelf** demonstrates **mid-level .NET developer skills**,
-focusing on **architecture, best practices, and practical application of
-modern .NET features**.
+## Roles
+
+The application defines these role constants:
+
+- Admin
+- Customer
+- Company
+- Employee
+
+Admin controllers are restricted to users in the `Admin` role. Roles are created
+from the registration page code path if they do not already exist.
+
+## Notes and Limitations
+
+- Email sending is implemented as a development/mock `EmailSender` that writes
+  email details to the console. It is not a production email integration.
+- Stripe payments are not implemented.
+- Facebook login/SSO is not configured in the current codebase.
+- There is no deployment pipeline or cloud hosting configuration in this repo.
+- The order flow creates local order records, but does not process real payments.
+
+## Future Improvements
+
+- Add production email provider configuration
+- Add payment provider integration
+- Add tests for cart, order, and admin workflows
+- Improve seed/admin setup documentation
+- Add deployment documentation after deployment is actually configured
+
