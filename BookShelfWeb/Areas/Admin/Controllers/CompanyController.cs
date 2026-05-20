@@ -54,7 +54,12 @@ namespace BookShelfWeb.Areas.Admin.Controllers
             else
             {
                 // update
-                Company companyObj = _unitOfWork.Company.Get(u => u.Id == id);
+                Company? companyObj = _unitOfWork.Company.Get(u => u.Id == id);
+                if (companyObj == null)
+                {
+                    return NotFound();
+                }
+
                 return View(companyObj);
             }
 
@@ -130,7 +135,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            if (id == null || id == 0)
+            if (id == 0)
             {
                 return NotFound();
             }
@@ -147,7 +152,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Company company = _unitOfWork.Company.Get(u => u.Id == id);
+            Company? company = _unitOfWork.Company.Get(u => u.Id == id);
             if (company == null) return NotFound();
 
             _unitOfWork.Company.Remove(company);

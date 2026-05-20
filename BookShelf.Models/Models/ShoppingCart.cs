@@ -14,15 +14,15 @@ namespace BookShelf.Models.Models
         [Key]
         public int Id { get; set; }
         public int ProductId { get; set; }
-        public Product Product { get; set; }
+        public Product Product { get; set; } = null!;
         [ForeignKey("ProductId")]
         [ValidateNever]
         [Range(1, 1000, ErrorMessage = "Please enter a value between 1 and 1000")]
         public int Count { get; set; }
-        public string ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; } = string.Empty;
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; } = null!;
 
         [NotMapped]
         public double Price { get; set; }

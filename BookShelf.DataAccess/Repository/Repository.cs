@@ -20,7 +20,7 @@ namespace BookShelf.DataAccess.Repository
             dbSet.Add(entity); // Implementation for adding an entity
         }
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T? Get(Expression<Func<T, bool>> filter)
         {
             IQueryable<T> query = dbSet; // Start with the DbSet
             query = query.Where(filter);
@@ -42,7 +42,7 @@ namespace BookShelf.DataAccess.Repository
         {
             dbSet.RemoveRange(entity); // Implementation for removing multiple entities
         }
-        public T Get(Expression<Func<T, bool>> filter, string includeProperties = null)
+        public T? Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
 

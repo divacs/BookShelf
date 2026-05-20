@@ -21,8 +21,11 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         }
         public IActionResult Index()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
 
             var shoppingCartVM = new ShoppingCartVM
             {
@@ -41,8 +44,11 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         }
         public IActionResult Summary()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
 
             var shoppingCartVM = new ShoppingCartVM
             {
@@ -52,7 +58,13 @@ namespace BookShelfWeb.Areas.Customer.Controllers
                 OrderHeader = new()
             };
 
-            shoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+            var applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
+
+            shoppingCartVM.OrderHeader.ApplicationUser = applicationUser;
 
             // if ApplicationUser is not null, populate OrderHeader fields
             if (!string.IsNullOrEmpty(shoppingCartVM.OrderHeader.ApplicationUser.Name))
@@ -89,6 +101,11 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         public IActionResult Plus(int cartId)
         {
             var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
             var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId && u.ApplicationUserId == userId);
             if (cartItem != null)
             {
@@ -105,8 +122,11 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SummaryPOST(ShoppingCartVM shoppingCartVM)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
 
             shoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(
                 u => u.ApplicationUserId == userId,
@@ -122,6 +142,10 @@ namespace BookShelfWeb.Areas.Customer.Controllers
             }
 
             var applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+            if (applicationUser == null)
+            {
+                return NotFound();
+            }
 
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
@@ -165,6 +189,11 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         public IActionResult Minus(int cartId)
         {
             var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
             var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId && u.ApplicationUserId == userId);
             if (cartItem != null)
             {
@@ -189,6 +218,11 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         public IActionResult Remove(int cartId)
         {
             var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
             var cartItem = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId && u.ApplicationUserId == userId);
             if (cartItem != null)
             {
@@ -200,10 +234,9 @@ namespace BookShelfWeb.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private string GetCurrentUserId()
+        private string? GetCurrentUserId()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            return claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         private void UpdateSessionCart(string? userId)

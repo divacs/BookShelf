@@ -67,7 +67,13 @@ namespace BookShelfWeb.Areas.Admin.Controllers
             else
             {
                 // update
-                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+                Product? product = _unitOfWork.Product.Get(u => u.Id == id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                productVM.Product = product;
                 return View(productVM);
             }
 
@@ -217,7 +223,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            Product product = _unitOfWork.Product.Get(u => u.Id == id);
+            Product? product = _unitOfWork.Product.Get(u => u.Id == id);
             if (product == null) return NotFound();
 
             ProductVM vm = new ProductVM
@@ -232,7 +238,7 @@ namespace BookShelfWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Product product = _unitOfWork.Product.Get(u => u.Id == id);
+            Product? product = _unitOfWork.Product.Get(u => u.Id == id);
             if (product == null) return NotFound();
 
             _unitOfWork.Product.Remove(product);

@@ -8,7 +8,7 @@ namespace BookShelf.Models.Models.ViewModels
 {
     public class ShoppingCartVM
     {
-        public IEnumerable<ShoppingCart> ShoppingCartList { get; set; }
-        public OrderHeader OrderHeader { get; set; }
+        public IEnumerable<ShoppingCart> ShoppingCartList { get; set; } = Enumerable.Empty<ShoppingCart>();
+        public OrderHeader OrderHeader { get; set; } = new();
     }
 }
