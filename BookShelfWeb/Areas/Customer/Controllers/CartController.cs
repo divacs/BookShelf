@@ -84,6 +84,8 @@ namespace BookShelfWeb.Areas.Customer.Controllers
 
 
         // POST: Cart/Plus/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Plus(int cartId)
         {
             var userId = GetCurrentUserId();
@@ -157,6 +159,8 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         }
 
         // POST: Cart/Minus/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Minus(int cartId)
         {
             var userId = GetCurrentUserId();
@@ -179,6 +183,8 @@ namespace BookShelfWeb.Areas.Customer.Controllers
         }
 
         // POST: Cart/Remove/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Remove(int cartId)
         {
             var userId = GetCurrentUserId();
