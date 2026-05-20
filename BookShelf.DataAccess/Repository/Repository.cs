@@ -20,19 +20,6 @@ namespace BookShelf.DataAccess.Repository
             dbSet.Add(entity); // Implementation for adding an entity
         }
 
-        public T? Get(Expression<Func<T, bool>> filter)
-        {
-            IQueryable<T> query = dbSet; // Start with the DbSet
-            query = query.Where(filter);
-            return query.FirstOrDefault(); // Return the first entity that matches the filter or null if none found
-        }
-
-        public IEnumerable<T> GetAll()
-        {
-            IQueryable<T> query = dbSet;
-            return query.ToList(); // Ensure the method returns the list of entities
-        }
-
         public void Remove(T entity)
         {
             dbSet.Remove(entity); // Implementation for removing an entity
