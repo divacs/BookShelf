@@ -5,12 +5,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BookShelf.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using BookShelfWeb.Configuration;
+using BookShelfWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Dodavanje servisa u container
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Mock režim se pali/gasi kroz MockStorefront:Enabled u appsettings.Development.json.
+builder.Services.Configure<MockStorefrontOptions>(
+    builder.Configuration.GetSection(MockStorefrontOptions.SectionName));
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -39,6 +45,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+builder.Services.AddScoped<IMockStorefrontService, MockStorefrontService>();
+builder.Services.AddScoped<DevelopmentMockDataSeeder>();
 
 // **Dodaj ovo za session**
 builder.Services.AddDistributedMemoryCache(); // potrebna memorija za session
@@ -50,6 +58,12 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var mockSeeder = scope.ServiceProvider.GetRequiredService<DevelopmentMockDataSeeder>();
+    await mockSeeder.SeedAsync();
+}
 
 // Konfiguracija HTTP pipeline-a
 if (!app.Environment.IsDevelopment())

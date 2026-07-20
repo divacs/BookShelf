@@ -1,39 +1,89 @@
-﻿@model BookShelf.Models.Models.ShoppingCart
+@model BookShelfWeb.ViewModels.BookDetailsViewModel
 
 <div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5 mb-4">
-            <div class="card shadow-sm">
-                <img src="@Model.Product.ImageUrl" alt="@Model.Product.Title" class="img-fluid rounded" style="object-fit: cover; height: 450px;" />
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <img src="@Model.Book.Product.ImageUrl" alt="@Model.Book.Product.Title" class="img-fluid" style="height: 520px; object-fit: cover;" />
             </div>
         </div>
 
-        <div class="col-md-7">
-            <div class="card shadow-sm p-4">
-                <h2 class="text-primary mb-2">@Model.Product.Title</h2>
-                <p class="text-muted"><strong>Author:</strong> @Model.Product.Author</p>
-                <p class="text-muted"><strong>ISBN:</strong> @Model.Product.ISBN</p>
-                <p class="text-muted"><strong>Category:</strong> @Model.Product.Category.Name</p>
-                <p><strong>Description:</strong> @Html.Raw(Model.Product.Description)</p>
-
-                <div class="mb-3">
-                    <span class="text-muted me-2" style="text-decoration: line-through;">@Model.Product.ListPrice.ToString("C")</span>
-                    <span class="fw-bold text-danger fs-4">@Model.Product.Price.ToString("C")</span>
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span class="badge rounded-pill bg-primary-subtle text-primary">@Model.Book.CategoryName</span>
+                    @if (Model.Book.IsFeatured)
+                    {
+                        <span class="badge rounded-pill bg-dark">Featured</span>
+                    }
+                    @if (Model.Book.IsBestseller)
+                    {
+                        <span class="badge rounded-pill bg-warning text-dark">Bestseller</span>
+                    }
+                    @if (Model.Book.IsNewRelease)
+                    {
+                        <span class="badge rounded-pill bg-success">New Release</span>
+                    }
+                    @if (Model.Book.IsDiscounted)
+                    {
+                        <span class="badge rounded-pill bg-danger">Sale</span>
+                    }
                 </div>
 
-                <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="d-flex align-items-center gap-3 mb-3">
-                    <input type="hidden" name="productId" value="@Model.ProductId" />
+                <h1 class="fw-bold mb-2">@Model.Book.Product.Title</h1>
+                <p class="text-muted fs-5 mb-2">@Model.Book.Product.Author</p>
+                <p class="mb-3">
+                    <span class="text-warning fw-semibold">@Model.Book.AverageRating.ToString("0.0")/5</span>
+                    <span class="text-muted"> · @Model.Book.ReviewCount reviews</span>
+                </p>
 
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3"><strong>Publisher</strong><div class="text-muted">@Model.Book.Publisher</div></div>
+                    <div class="col-md-3"><strong>Year</strong><div class="text-muted">@Model.Book.PublishedYear</div></div>
+                    <div class="col-md-3"><strong>Pages</strong><div class="text-muted">@Model.Book.PageCount</div></div>
+                    <div class="col-md-3"><strong>Stock</strong><div class="text-muted">@Model.Book.StockCount available</div></div>
+                </div>
+
+                <p class="text-muted"><strong>ISBN:</strong> @Model.Book.Product.ISBN</p>
+                <div class="mb-4">@Html.Raw(Model.Book.Product.Description)</div>
+
+                <div class="mb-4">
+                    @foreach (var tag in Model.Book.Tags)
+                    {
+                        <span class="badge rounded-pill text-bg-light border me-2 mb-2 px-3 py-2">@tag</span>
+                    }
+                </div>
+
+                <div class="mb-4">
+                    <span class="text-muted me-2 fs-5" style="text-decoration: line-through;">@Model.Book.Product.ListPrice.ToString("C")</span>
+                    <span class="fw-bold text-danger fs-2">@Model.Book.Product.Price.ToString("C")</span>
+                </div>
+
+                <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="d-flex flex-wrap align-items-end gap-3 mb-3">
+                    <input type="hidden" name="productId" value="@Model.ShoppingCart.ProductId" />
                     <div>
                         <label for="count" class="form-label"><strong>Quantity</strong></label>
                         <input type="number" name="count" id="count" value="1" min="1" class="form-control" style="width: 100px;" />
                     </div>
-
-                    <button type="submit" class="btn btn-success btn-lg mt-4">Add to Cart</button>
+                    <button type="submit" class="btn btn-success btn-lg">Add to Cart</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-lg">Back to Store</a>
                 </form>
-
-                <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
             </div>
         </div>
     </div>
+
+    <section class="mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="fw-bold mb-0">Related Books</h2>
+            <a asp-action="Search" asp-route-category="@Model.Book.CategoryName" class="text-decoration-none">More in @Model.Book.CategoryName</a>
+        </div>
+        <div class="row g-4">
+            @foreach (var book in Model.RelatedBooks)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <partial name="_BookCard" model="book" />
+                </div>
+            }
+        </div>
+    </section>
 </div>

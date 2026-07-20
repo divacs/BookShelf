@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#15243e"/>
+  <rect x="40" y="40" width="520" height="820" rx="28" fill="#20304e"/>
+  <rect x="150" y="420" width="300" height="210" rx="20" fill="#f4b860"/>
+  <path d="M150 420l90-110 76 86 78-122 56 146" fill="none" stroke="#fff6df" stroke-width="14"/>
+  <text x="72" y="120" fill="#f7f2e7" font-family="Georgia, serif" font-size="48" font-weight="700">FOUNDER</text>
+  <text x="72" y="178" fill="#f7f2e7" font-family="Georgia, serif" font-size="48" font-weight="700">AT DAWN</text>
+  <text x="76" y="786" fill="#f7f2e7" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">LUCA MERCER</text>
+</svg>

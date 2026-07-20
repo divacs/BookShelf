@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#dbe9f3"/>
+  <rect x="40" y="40" width="520" height="820" rx="28" fill="#f8fbfd"/>
+  <rect x="160" y="340" width="280" height="230" rx="18" fill="#9fb6c4"/>
+  <path d="M160 340l140-100 140 100" fill="#c9825e"/>
+  <path d="M130 630h340" stroke="#7d9db2" stroke-width="14"/>
+  <circle cx="434" cy="218" r="28" fill="#f4b860"/>
+  <text x="68" y="126" fill="#3d5a6b" font-family="Georgia, serif" font-size="42" font-weight="700">WINTER AT</text>
+  <text x="68" y="180" fill="#3d5a6b" font-family="Georgia, serif" font-size="42" font-weight="700">BELLWEATHER</text>
+  <text x="68" y="234" fill="#3d5a6b" font-family="Georgia, serif" font-size="42" font-weight="700">INN</text>
+  <text x="72" y="784" fill="#617b8a" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">SOPHIE VALE</text>
+</svg>

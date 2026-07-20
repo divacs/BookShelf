@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#21183b"/>
+  <rect x="40" y="40" width="520" height="820" rx="28" fill="#2c2350"/>
+  <rect x="180" y="190" width="240" height="380" rx="18" fill="#f6cf7c"/>
+  <circle cx="300" cy="300" r="84" fill="#fff6d6" opacity="0.8"/>
+  <path d="M180 580h240l-80 120H260z" fill="#1b1532"/>
+  <text x="70" y="118" fill="#f7e7b0" font-family="Georgia, serif" font-size="48" font-weight="700">LANTERNS</text>
+  <text x="70" y="174" fill="#f7e7b0" font-family="Georgia, serif" font-size="48" font-weight="700">OF ALDER</text>
+  <text x="70" y="230" fill="#f7e7b0" font-family="Georgia, serif" font-size="48" font-weight="700">KEEP</text>
+  <text x="74" y="778" fill="#f7e7b0" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">MIRA SOLIS</text>
+</svg>

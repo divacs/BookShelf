@@ -1,4 +1,4 @@
-﻿@using BookShelf.Utility
+@using BookShelf.Utility
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,8 +28,23 @@
                             <a class="nav-link" asp-controller="Home" asp-area="Customer" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-area="Customer" asp-action="Search">Browse</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-area="Customer" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Library" asp-area="Customer" asp-action="Wishlist">Wishlist</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Library" asp-area="Customer" asp-action="Orders">Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Library" asp-area="Customer" asp-action="Profile">Profile</a>
+                            </li>
+                        }
 
                         @if (User.IsInRole(SD.Role_Admin))
                         {
@@ -38,6 +53,9 @@
                                     Content Management
                                 </a>
                                 <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item text-dark" asp-controller="Dashboard" asp-area="Admin" asp-action="Index">Dashboard</a>
+                                    </li>
                                     <li>
                                         <a class="dropdown-item text-dark" asp-controller="Category" asp-area="Admin" asp-action="Index">Category</a>
                                     </li>

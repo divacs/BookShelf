@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#f3dfd4"/>
+  <rect x="42" y="42" width="516" height="816" rx="28" fill="#f9efe9"/>
+  <rect x="124" y="320" width="352" height="240" rx="22" fill="#d27867"/>
+  <path d="M124 320l176 144 176-144" fill="#e7a495"/>
+  <text x="70" y="120" fill="#7a3f36" font-family="Georgia, serif" font-size="40" font-weight="700">LETTERS FROM</text>
+  <text x="70" y="170" fill="#7a3f36" font-family="Georgia, serif" font-size="40" font-weight="700">MARIGOLD</text>
+  <text x="70" y="220" fill="#7a3f36" font-family="Georgia, serif" font-size="40" font-weight="700">LANE</text>
+  <text x="76" y="786" fill="#7a3f36" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">CLARA BENNETT</text>
+</svg>

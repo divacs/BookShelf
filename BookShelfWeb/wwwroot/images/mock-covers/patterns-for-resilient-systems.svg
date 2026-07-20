@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#0f2a38"/>
+  <rect x="42" y="42" width="516" height="816" rx="28" fill="#133c55"/>
+  <rect x="130" y="274" width="120" height="120" rx="18" fill="#f4b860"/>
+  <rect x="350" y="274" width="120" height="120" rx="18" fill="#f4b860"/>
+  <rect x="240" y="446" width="120" height="120" rx="18" fill="#f4b860"/>
+  <path d="M250 334h100M190 394l80 70M410 394l-80 70" stroke="#f7f1e4" stroke-width="16" stroke-linecap="round"/>
+  <text x="64" y="118" fill="#f7f1e4" font-family="Georgia, serif" font-size="38" font-weight="700">PATTERNS FOR</text>
+  <text x="64" y="166" fill="#f7f1e4" font-family="Georgia, serif" font-size="38" font-weight="700">RESILIENT</text>
+  <text x="64" y="214" fill="#f7f1e4" font-family="Georgia, serif" font-size="38" font-weight="700">SYSTEMS</text>
+  <text x="72" y="786" fill="#f7f1e4" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">DEVON HALE</text>
+</svg>

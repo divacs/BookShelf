@@ -1,0 +1,99 @@
+@model BookShelfWeb.ViewModels.AdminDashboardViewModel
+
+<section class="mb-4">
+    <h1 class="fw-bold">Admin Dashboard</h1>
+    <p class="text-muted">Portfolio-friendly bookstore metrics, inventory visibility, and recent order activity.</p>
+</section>
+
+<div class="row g-3 mb-4">
+    @foreach (var metric in Model.Metrics)
+    {
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 @metric.AccentClass">
+                <div class="card-body">
+                    <small>@metric.Label</small>
+                    <div class="display-6 fw-bold">@metric.Value</div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <h2 class="h5 fw-bold mb-3">Sales by Month</h2>
+                @foreach (var month in Model.SalesByMonth)
+                {
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>@month.Label</span>
+                            <span>@month.Revenue.ToString("C0") · @month.Orders orders</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar" role="progressbar" style="width:@Math.Min(100, month.Revenue / 40)%"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <h2 class="h5 fw-bold mb-3">Low Inventory</h2>
+                @foreach (var book in Model.LowStockBooks)
+                {
+                    <div class="d-flex justify-content-between border-top py-3">
+                        <div>
+                            <div class="fw-semibold">@book.Product.Title</div>
+                            <small class="text-muted">@book.CategoryName</small>
+                        </div>
+                        <span class="badge bg-danger-subtle text-danger">@book.StockCount left</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <h2 class="h5 fw-bold mb-3">Top Selling Books</h2>
+                @foreach (var book in Model.Bestsellers)
+                {
+                    <div class="d-flex gap-3 align-items-center border-top py-3">
+                        <img src="@book.Product.ImageUrl" alt="@book.Product.Title" style="width: 54px; height: 76px; object-fit: cover; border-radius: 0.75rem;" />
+                        <div class="flex-grow-1">
+                            <div class="fw-semibold">@book.Product.Title</div>
+                            <small class="text-muted">@book.UnitsSold units sold</small>
+                        </div>
+                        <span class="fw-semibold">@book.Product.Price.ToString("C")</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <h2 class="h5 fw-bold mb-3">Recent Orders</h2>
+                @foreach (var order in Model.RecentOrders)
+                {
+                    <div class="border-top py-3">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="fw-semibold">Order #@order.OrderId</div>
+                                <small class="text-muted">@order.OrderDate.ToString("MMM d, yyyy") · @order.Status</small>
+                            </div>
+                            <strong>@order.OrderTotal.ToString("C")</strong>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

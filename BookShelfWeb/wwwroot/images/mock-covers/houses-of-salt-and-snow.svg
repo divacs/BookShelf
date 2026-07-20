@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#d8e2ea"/>
+  <rect x="42" y="42" width="516" height="816" rx="28" fill="#eef4f7"/>
+  <path d="M140 560l80-170 82 100 86-160 72 230" stroke="#60798a" stroke-width="18" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M124 612h352" stroke="#ffffff" stroke-width="16"/>
+  <text x="64" y="120" fill="#425867" font-family="Georgia, serif" font-size="40" font-weight="700">HOUSES OF</text>
+  <text x="64" y="170" fill="#425867" font-family="Georgia, serif" font-size="40" font-weight="700">SALT AND</text>
+  <text x="64" y="220" fill="#425867" font-family="Georgia, serif" font-size="40" font-weight="700">SNOW</text>
+  <text x="70" y="786" fill="#425867" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">AVELINE ROE</text>
+</svg>

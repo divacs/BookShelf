@@ -1,40 +1,67 @@
 using BookShelf.DataAccess.Repository.IRepository;
 using BookShelf.Models.Models;
+using BookShelfWeb.Services;
+using BookShelfWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 [Area("Customer")]
 public class HomeController : Controller
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<HomeController> _logger;
+    private readonly IMockStorefrontService _mockStorefrontService;
 
-    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, IMockStorefrontService mockStorefrontService)
     {
         _logger = logger;
-        _unitOfWork = unitOfWork;
+        _mockStorefrontService = mockStorefrontService;
     }
 
     public IActionResult Index()
     {
-        var productList = _unitOfWork.Product.GetAll();
-        return View(productList);
+        return View(new StorefrontHomeViewModel
+        {
+            Categories = _mockStorefrontService.GetCategories(),
+            FeaturedBooks = _mockStorefrontService.GetFeaturedBooks(4),
+            Bestsellers = _mockStorefrontService.GetBestsellers(4),
+            NewArrivals = _mockStorefrontService.GetNewArrivals(4),
+            AllBooks = _mockStorefrontService.GetAllBooks()
+        });
     }
 
-    // GET: Details
     public IActionResult Details(int productId)
     {
-        var product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category");
-
-        if (product == null)
-            return NotFound();
-
-        var cart = new ShoppingCart
+        var book = _mockStorefrontService.GetBookById(productId);
+        if (book == null)
         {
-            Product = product,
-            ProductId = productId,
-            Count = 1
-        };
+            return NotFound();
+        }
 
-        return View(cart);
+        return View(new BookDetailsViewModel
+        {
+            Book = book,
+            ShoppingCart = new ShoppingCart
+            {
+                Product = book.Product,
+                ProductId = productId,
+                Count = 1
+            },
+            RelatedBooks = _mockStorefrontService.GetRelatedBooks(book, 4)
+        });
+    }
+
+    public IActionResult Search(string? query, string? category)
+    {
+        return View(new SearchResultsViewModel
+        {
+            Query = query,
+            Category = category,
+            Categories = _mockStorefrontService.GetCategories(),
+            Results = _mockStorefrontService.SearchBooks(query, category)
+        });
+    }
+
+    public IActionResult Privacy()
+    {
+        return View();
     }
 }

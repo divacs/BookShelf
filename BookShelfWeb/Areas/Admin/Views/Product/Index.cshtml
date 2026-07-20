@@ -1,36 +1,63 @@
-﻿@using BookShelf.Models.Models
+@using BookShelf.Models.Models
+@inject BookShelfWeb.Services.IMockStorefrontService MockStorefrontService
 @model List<Product>
 
 <main class="container my-5" style="flex: 1 0 auto; padding-bottom: 80px;">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary mb-0">Product List</h2>
+        <div>
+            <h2 class="text-primary mb-0">Inventory Catalog</h2>
+            <p class="text-muted mb-0">Admin-facing overview of product metadata, pricing, and stock.</p>
+        </div>
         <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Create New Product
         </a>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
         <div class="card-body p-0">
-            <table class="table table-hover table-striped mb-0">
+            <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>ISBN</th>
-                        <th>Price</th>
+                        <th>Book</th>
                         <th>Category</th>
+                        <th>Price</th>
+                        <th>Inventory</th>
+                        <th>Rating</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var obj in Model)
                     {
+                        var meta = MockStorefrontService.GetBookByIsbn(obj.ISBN);
                         <tr>
-                            <td>@obj.Title</td>
-                            <td>@obj.Author</td>
-                            <td>@obj.ISBN</td>
-                            <td>@obj.Price.ToString("C")</td>
-                            <td>@obj.Category?.Name</td>
+                            <td>
+                                <div class="d-flex gap-3 align-items-center">
+                                    <img src="@(string.IsNullOrWhiteSpace(obj.ImageUrl) ? "/images/mock-covers/fallback-cover.svg" : obj.ImageUrl)" alt="@obj.Title" style="width: 48px; height: 68px; object-fit: cover; border-radius: 0.75rem;" />
+                                    <div>
+                                        <div class="fw-semibold">@obj.Title</div>
+                                        <div class="text-muted small">@obj.Author</div>
+                                        <div class="text-muted small">@obj.ISBN</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>@obj.Category?.Name</div>
+                                <small class="text-muted">@meta?.Publisher</small>
+                            </td>
+                            <td>
+                                <div class="fw-semibold">@obj.Price.ToString("C")</div>
+                                <small class="text-muted" style="text-decoration: line-through;">@obj.ListPrice.ToString("C")</small>
+                            </td>
+                            <td>
+                                <span class="badge @(meta != null && meta.StockCount <= 12 ? "bg-danger-subtle text-danger" : "bg-success-subtle text-success")">
+                                    @(meta?.StockCount ?? 0) in stock
+                                </span>
+                            </td>
+                            <td>
+                                <div class="fw-semibold text-warning">@(meta?.AverageRating.ToString("0.0") ?? "-")</div>
+                                <small class="text-muted">@(meta?.ReviewCount ?? 0) reviews</small>
+                            </td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
                                     <a asp-controller="Product" asp-action="Upsert" asp-route-id="@obj.Id" class="btn btn-sm btn-primary">
@@ -48,13 +75,3 @@
         </div>
     </div>
 </main>
-
-<style>
-    .table-hover tbody tr:hover {
-        background-color: #f8f9fa; /* svetlija pozadina na hover */
-    }
-
-    .btn-group .btn {
-        min-width: 80px;
-    }
-</style>

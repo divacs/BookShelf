@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#f5efe4"/>
+  <rect x="40" y="40" width="520" height="820" rx="28" fill="#fdfaf4"/>
+  <path d="M138 652l110-354 110 354 110-244" fill="none" stroke="#88785c" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="64" y="118" fill="#524934" font-family="Georgia, serif" font-size="38" font-weight="700">THE QUIET</text>
+  <text x="64" y="166" fill="#524934" font-family="Georgia, serif" font-size="38" font-weight="700">ARITHMETIC</text>
+  <text x="64" y="214" fill="#524934" font-family="Georgia, serif" font-size="38" font-weight="700">OF MEMORY</text>
+  <text x="70" y="786" fill="#524934" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">HELENA PRYCE</text>
+</svg>

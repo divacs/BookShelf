@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#e9edf2"/>
+  <rect x="42" y="42" width="516" height="816" rx="28" fill="#ffffff" stroke="#b8c3cf" stroke-width="8"/>
+  <rect x="150" y="240" width="300" height="300" rx="30" fill="#d9e2ea"/>
+  <text x="112" y="650" fill="#425867" font-family="Georgia, serif" font-size="48" font-weight="700">BOOKSHELF</text>
+  <text x="148" y="720" fill="#6f8192" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">COVER PREVIEW</text>
+</svg>

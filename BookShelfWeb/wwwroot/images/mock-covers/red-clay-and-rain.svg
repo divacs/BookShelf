@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#6d3429"/>
+  <rect x="40" y="40" width="520" height="820" rx="28" fill="#8a4434"/>
+  <path d="M110 570c70-72 146-142 252-270" stroke="#f6d59a" stroke-width="18" fill="none"/>
+  <path d="M330 316c46 64 80 120 122 214" stroke="#f6d59a" stroke-width="12" fill="none"/>
+  <text x="68" y="120" fill="#ffe9c2" font-family="Georgia, serif" font-size="48" font-weight="700">RED CLAY</text>
+  <text x="68" y="178" fill="#ffe9c2" font-family="Georgia, serif" font-size="48" font-weight="700">AND RAIN</text>
+  <text x="72" y="784" fill="#ffe9c2" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">THOMAS ADEBAYO</text>
+</svg>

@@ -1,0 +1,52 @@
+@model BookShelfWeb.ViewModels.UserProfileViewModel
+
+<section class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <div class="profile-badge mb-3">@Model.User.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(part => part[0]).Aggregate("", (a, c) => a + c)</div>
+                <h2 class="h4 fw-bold mb-1">@Model.User.Name</h2>
+                <p class="text-muted mb-1">@Model.User.Email</p>
+                <p class="text-muted mb-3">@Model.User.PhoneNumber</p>
+                <p class="mb-0">@Model.User.StreetAddress, @Model.User.City, @Model.User.State @Model.User.PostalCode</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="row g-3">
+            <div class="col-md-3"><div class="card border-0 shadow-sm rounded-4"><div class="card-body"><small class="text-muted">Wishlist</small><div class="display-6 fw-bold">@Model.WishlistCount</div></div></div></div>
+            <div class="col-md-3"><div class="card border-0 shadow-sm rounded-4"><div class="card-body"><small class="text-muted">Cart Items</small><div class="display-6 fw-bold">@Model.CartItemsCount</div></div></div></div>
+            <div class="col-md-3"><div class="card border-0 shadow-sm rounded-4"><div class="card-body"><small class="text-muted">Orders</small><div class="display-6 fw-bold">@Model.TotalOrders</div></div></div></div>
+            <div class="col-md-3"><div class="card border-0 shadow-sm rounded-4"><div class="card-body"><small class="text-muted">Lifetime Spend</small><div class="h3 fw-bold mt-2">@Model.LifetimeSpend.ToString("C0")</div></div></div></div>
+        </div>
+        <div class="card border-0 shadow-sm rounded-4 mt-3">
+            <div class="card-body p-4">
+                <h3 class="h5 fw-bold mb-3">Recent Orders</h3>
+                @foreach (var order in Model.RecentOrders)
+                {
+                    <div class="d-flex justify-content-between border-top py-3">
+                        <div>
+                            <div class="fw-semibold">Order #@order.OrderId</div>
+                            <small class="text-muted">@order.OrderDate.ToString("MMMM d, yyyy") · @order.Status</small>
+                        </div>
+                        <strong>@order.OrderTotal.ToString("C")</strong>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .profile-badge {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #1f6f8b, #f4b860);
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+</style>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#edf3ec"/>
+  <rect x="38" y="38" width="524" height="824" rx="28" fill="#f8fbf7"/>
+  <circle cx="300" cy="360" r="126" fill="#9dc3a7"/>
+  <path d="M250 305c-38 10-70 52-70 92 0 62 44 112 120 112 68 0 120-42 120-110 0-54-34-92-82-104" fill="none" stroke="#355b47" stroke-width="14"/>
+  <circle cx="266" cy="356" r="10" fill="#355b47"/>
+  <circle cx="340" cy="356" r="10" fill="#355b47"/>
+  <text x="72" y="120" fill="#355b47" font-family="Georgia, serif" font-size="46" font-weight="700">THE</text>
+  <text x="72" y="176" fill="#355b47" font-family="Georgia, serif" font-size="46" font-weight="700">LISTENING</text>
+  <text x="72" y="232" fill="#355b47" font-family="Georgia, serif" font-size="46" font-weight="700">BRAIN</text>
+  <text x="74" y="786" fill="#355b47" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">DR. MIRA WESTON</text>
+</svg>

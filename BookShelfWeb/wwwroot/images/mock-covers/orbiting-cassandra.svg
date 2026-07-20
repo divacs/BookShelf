@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#091521"/>
+  <rect x="42" y="42" width="516" height="816" rx="28" fill="#10253a"/>
+  <circle cx="300" cy="400" r="118" fill="#f4b860"/>
+  <ellipse cx="300" cy="400" rx="230" ry="74" fill="none" stroke="#b7d5ea" stroke-width="14"/>
+  <circle cx="170" cy="360" r="18" fill="#d8ecf8"/>
+  <circle cx="450" cy="442" r="16" fill="#d8ecf8"/>
+  <text x="70" y="118" fill="#eff7fb" font-family="Georgia, serif" font-size="48" font-weight="700">ORBITING</text>
+  <text x="70" y="176" fill="#eff7fb" font-family="Georgia, serif" font-size="48" font-weight="700">CASSANDRA</text>
+  <text x="74" y="786" fill="#eff7fb" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">J. R. KELLAN</text>
+</svg>

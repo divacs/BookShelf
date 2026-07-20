@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <rect width="600" height="900" fill="#b8c8d5"/>
+  <rect x="40" y="40" width="520" height="820" rx="28" fill="#dbe6ec"/>
+  <path d="M310 120c-42 110-140 162-122 278s142 120 138 232-106 132-108 190" fill="none" stroke="#4d738d" stroke-width="34" stroke-linecap="round"/>
+  <text x="66" y="118" fill="#2f4a5c" font-family="Georgia, serif" font-size="38" font-weight="700">THE RIVER</text>
+  <text x="66" y="166" fill="#2f4a5c" font-family="Georgia, serif" font-size="38" font-weight="700">BETWEEN</text>
+  <text x="66" y="214" fill="#2f4a5c" font-family="Georgia, serif" font-size="38" font-weight="700">WARS</text>
+  <text x="74" y="786" fill="#2f4a5c" font-family="Arial, sans-serif" font-size="24" letter-spacing="4">IRIS PETROV</text>
+</svg>
