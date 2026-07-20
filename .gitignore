@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Local interview notes
+INTERVIEW_NOTES_BOOKSHELF.md
